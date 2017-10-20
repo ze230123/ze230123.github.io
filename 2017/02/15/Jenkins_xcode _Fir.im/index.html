@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传 | 泽i的job</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#428bca">
+    
+    
+    <meta name="keywords" content="CI">
+    <meta name="description" content="安装jenkins （命令行安装） 安装jenkins(需安装homebrew)  1brew install jenkins  启动jenkins  1jenkins  卸载jenkins  1brew uninstall jenkins 启动jenkins后使用浏览器访问jenkins http://localhost:8080/">
+<meta name="keywords" content="CI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传">
+<meta property="og:url" content="http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/index.html">
+<meta property="og:site_name" content="泽i的job">
+<meta property="og:description" content="安装jenkins （命令行安装） 安装jenkins(需安装homebrew)  1brew install jenkins  启动jenkins  1jenkins  卸载jenkins  1brew uninstall jenkins 启动jenkins后使用浏览器访问jenkins http://localhost:8080/">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/1.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/2.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/3.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/4.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/5.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/6.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/7.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/8.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/9.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/10.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/11.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/12.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/13.png">
+<meta property="og:image" content="http://yoursite.com/img/2017/02/14.png">
+<meta property="og:updated_time" content="2017-10-20T05:25:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传">
+<meta name="twitter:description" content="安装jenkins （命令行安装） 安装jenkins(需安装homebrew)  1brew install jenkins  启动jenkins  1jenkins  卸载jenkins  1brew uninstall jenkins 启动jenkins后使用浏览器访问jenkins http://localhost:8080/">
+<meta name="twitter:image" content="http://yoursite.com/img/2017/02/1.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="泽i的job" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/cover.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">泽i</h5>
+          <a href="mailto:4674069@qq.com" title="4674069@qq.com" class="mail">4674069@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yscoder" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-card"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-02-15T12:00:00.000Z" itemprop="datePublished" class="page-time">
+  2017-02-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Xcode/">Xcode</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装jenkins-（命令行安装）"><span class="post-toc-text">安装jenkins （命令行安装）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装插件"><span class="post-toc-text">安装插件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#创建一个新的项目"><span class="post-toc-text">创建一个新的项目</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#项目基本信息"><span class="post-toc-text">项目基本信息</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#源码管理"><span class="post-toc-text">源码管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置构建过程"><span class="post-toc-text">配置构建过程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置Xcode-integration"><span class="post-toc-text">配置Xcode integration</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新增Xcode-integration-构建过程"><span class="post-toc-text">新增Xcode integration 构建过程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码签名及密匙配置"><span class="post-toc-text">代码签名及密匙配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Xcode高级构建配置"><span class="post-toc-text">Xcode高级构建配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#发布到fir-im"><span class="post-toc-text">发布到fir.im</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#启动构建"><span class="post-toc-text">启动构建</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#下面来说下共享Xcode项目中scheme"><span class="post-toc-text">下面来说下共享Xcode项目中scheme</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Jenkins_xcode _Fir.im"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-02-15 20:00:00" datetime="2017-02-15T12:00:00.000Z"  itemprop="datePublished">2017-02-15</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Xcode/">Xcode</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="安装jenkins-（命令行安装）"><a href="#安装jenkins-（命令行安装）" class="headerlink" title="安装jenkins （命令行安装）"></a>安装jenkins （命令行安装）</h2><ul>
+<li>安装jenkins(需安装homebrew)</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install jenkins</div></pre></td></tr></table></figure>
+<ul>
+<li>启动jenkins</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jenkins</div></pre></td></tr></table></figure>
+<ul>
+<li>卸载jenkins</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew uninstall jenkins</div></pre></td></tr></table></figure>
+<p>启动jenkins后使用浏览器访问jenkins <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><ul>
+<li>首先确保安装了 OS X command line tools ,终端运行命令</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xcode-select - -install</div></pre></td></tr></table></figure>
+<ul>
+<li>使用Homebrew 及 RVM 安装Ruby，在安装 fir-cli</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Install <span class="symbol">Homebrew:</span></div><div class="line"></div><div class="line">ruby -e<span class="string">"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span></div><div class="line"></div><div class="line">install <span class="symbol">RVM:</span></div><div class="line"></div><div class="line">\curl -sSL <span class="symbol">https:</span>/<span class="regexp">/get.rvm.io|bash -s stable --ruby</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">gem install fir-cli</span></div></pre></td></tr></table></figure>
+<p><strong><em>具体安装参考 <a href="https://github.com/FIRHQ/fir-cli/blob/master/README.md" target="_blank" rel="external">官方工具 fir-cli 使用说明</a></em></strong></p>
+<h2 id="创建一个新的项目"><a href="#创建一个新的项目" class="headerlink" title="创建一个新的项目"></a>创建一个新的项目</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="项目基本信息"><a href="#项目基本信息" class="headerlink" title="项目基本信息"></a>项目基本信息</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h2 id="源码管理"><a href="#源码管理" class="headerlink" title="源码管理"></a>源码管理</h2><p>源码管理中选择Git，配置仓库地址，认证账户，需要构建的分支等。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/4.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h2 id="配置构建过程"><a href="#配置构建过程" class="headerlink" title="配置构建过程"></a>配置构建过程</h2><p>因为我的项目使用cocoapods进行依赖管理，故现增加一个Shell脚本的构建步骤。<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/5.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/6.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h2 id="配置Xcode-integration"><a href="#配置Xcode-integration" class="headerlink" title="配置Xcode integration"></a>配置Xcode integration</h2><h3 id="新增Xcode-integration-构建过程"><a href="#新增Xcode-integration-构建过程" class="headerlink" title="新增Xcode integration 构建过程"></a>新增Xcode integration 构建过程</h3><p>基础配置<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/7.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<ol>
+<li>target在本文的配置中可以不添</li>
+<li>clean before build  勾选Yes</li>
+<li>Configuration 实在Xcode中的配置，默认有Debug和Release，这里的AdHoc是我自己在项目中添加的配置。</li>
+<li>这里设置 .ipa 文件的名称。其中 ${JOB_NAME} 为本项目Job的名字，${BUILD_ID}为本次构建的版本号。</li>
+<li>这里设置构建过程输出目录。其中 ${WORKSPACE} 为jenkins 提供的系统变量，为构建根目录。</li>
+</ol>
+<h2 id="代码签名及密匙配置"><a href="#代码签名及密匙配置" class="headerlink" title="代码签名及密匙配置"></a>代码签名及密匙配置</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/8.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ol>
+<li>本文采用在Xcode 项目中 共享scheme 的方式，在 scheme 内部对代码签名和 Profile 做好了配置，同时 jenkins 所在的 Mac OSX 中有对应的证书和Profile，所以 1 中不需要做特殊配置，如果配置，将替换scheme中的配置。</li>
+<li>在打包过程中，命令会由于系统的安全设置提醒输入密码，2中可以设置密匙所在路径及系统用户密码。</li>
+<li>Keychain path ：${HOME}/Library/Keychains/login.keychain  为系统登录密匙路径。</li>
+<li>Keychain password ： 填入电脑的用户密码。</li>
+</ol>
+<p><strong><em>【注】：Xcode中共享 scheme 的 方法 后边会说到。</em></strong></p>
+<h2 id="Xcode高级构建配置"><a href="#Xcode高级构建配置" class="headerlink" title="Xcode高级构建配置"></a>Xcode高级构建配置</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/9.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ol>
+<li>这里的Project就是我在Xcode项目中共享的scheme。</li>
+<li>本文中的项目中包含有workspace，这里设置对应路径，不需要带上 .xcworkspace后缀。</li>
+<li>Xcode项目所在目录。</li>
+<li>Xcode项目文件路径，这里需要带上 .xcodeproj 后缀。</li>
+<li>设置构建输出目录。</li>
+</ol>
+<h2 id="发布到fir-im"><a href="#发布到fir-im" class="headerlink" title="发布到fir.im"></a>发布到fir.im</h2><p>新增一个 构建后操作步骤<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/10.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/11.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<ul>
+<li>这里添加 fir.im Token  从自己的fir.im账号里获取 </li>
+</ul>
+<h2 id="启动构建"><a href="#启动构建" class="headerlink" title="启动构建"></a>启动构建</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/12.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>到这里自动构建就完成了</p>
+<h2 id="下面来说下共享Xcode项目中scheme"><a href="#下面来说下共享Xcode项目中scheme" class="headerlink" title="下面来说下共享Xcode项目中scheme"></a>下面来说下共享Xcode项目中scheme</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/13.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/2017/02/14.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<ol>
+<li>“+” 可以新建scheme </li>
+<li>将共享后的scheme 纳入版本管理后，就可以用按上边的步骤配置好的jenkins 来自动构建了。</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+
+        
+        文章标题： <a href="/2017/02/15/Jenkins_xcode _Fir.im/" target="_blank" rel="external">http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/</a>
+        
+    </div>
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/cover.jpg" alt="泽i">
+            泽i
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/">CI</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/&title=《Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传》 — 泽i的job&pic=http://yoursite.com/img/cover.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/&title=《Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传》 — 泽i的job&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传》 — 泽i的job&url=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/02/25/CoreText_PageStringCount/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">iOS CoreText计算每页显示的字数的方法</h4>
+      </a>
+    </div>
+  
+
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>泽i &copy; 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/&title=《Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传》 — 泽i的job&pic=http://yoursite.com/img/cover.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/&title=《Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传》 — 泽i的job&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Jenkins + xcode +Fir.im 自动构建项目 、打包ipa并上传》 — 泽i的job&url=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2017/02/15/Jenkins_xcode _Fir.im/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

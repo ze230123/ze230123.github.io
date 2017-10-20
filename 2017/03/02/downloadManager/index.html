@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>ZEDownloadManager 下载管理器 | 泽i的job</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#428bca">
+    
+    
+    <meta name="keywords" content="学习">
+    <meta name="description" content="结构设计 ZEDownloadModel是下载任务的数据模型，下载任务的文件名、储存路径、下载进度、下载速度等。进度、状态的回调。 ZEDownloadOperation是NSOperation的子类，下载功能的实现、暂停等功能。 ZEDownloadManager单例，将上面俩个类集成，用户通过ZEDownloadManager对象的操作实现下载。  ZEDownloadModel1234567">
+<meta name="keywords" content="学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZEDownloadManager 下载管理器">
+<meta property="og:url" content="http://yoursite.com/2017/03/02/downloadManager/index.html">
+<meta property="og:site_name" content="泽i的job">
+<meta property="og:description" content="结构设计 ZEDownloadModel是下载任务的数据模型，下载任务的文件名、储存路径、下载进度、下载速度等。进度、状态的回调。 ZEDownloadOperation是NSOperation的子类，下载功能的实现、暂停等功能。 ZEDownloadManager单例，将上面俩个类集成，用户通过ZEDownloadManager对象的操作实现下载。  ZEDownloadModel1234567">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/2017/03/download.gif">
+<meta property="og:updated_time" content="2017-10-20T05:19:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ZEDownloadManager 下载管理器">
+<meta name="twitter:description" content="结构设计 ZEDownloadModel是下载任务的数据模型，下载任务的文件名、储存路径、下载进度、下载速度等。进度、状态的回调。 ZEDownloadOperation是NSOperation的子类，下载功能的实现、暂停等功能。 ZEDownloadManager单例，将上面俩个类集成，用户通过ZEDownloadManager对象的操作实现下载。  ZEDownloadModel1234567">
+<meta name="twitter:image" content="http://yoursite.com/images/2017/03/download.gif">
+    
+        <link rel="alternate" type="application/atom+xml" title="泽i的job" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/cover.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">泽i</h5>
+          <a href="mailto:4674069@qq.com" title="4674069@qq.com" class="mail">4674069@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yscoder" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-card"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">ZEDownloadManager 下载管理器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">ZEDownloadManager 下载管理器</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-03-02T14:00:00.000Z" itemprop="datePublished" class="page-time">
+  2017-03-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/OC/">OC</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#结构设计"><span class="post-toc-text">结构设计</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZEDownloadModel"><span class="post-toc-text">ZEDownloadModel</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZEDownloadOperation"><span class="post-toc-text">ZEDownloadOperation</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZEDownloadManager"><span class="post-toc-text">ZEDownloadManager</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZEDownloadManager使用"><span class="post-toc-text">ZEDownloadManager使用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#功能都已近实现，具体可以查看Demo-如果有错误的地方欢迎指出。"><span class="post-toc-text">功能都已近实现，具体可以查看Demo,如果有错误的地方欢迎指出。</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-downloadManager"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">ZEDownloadManager 下载管理器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-03-02 22:00:00" datetime="2017-03-02T14:00:00.000Z"  itemprop="datePublished">2017-03-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/OC/">OC</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h3><ol>
+<li>ZEDownloadModel是下载任务的数据模型，下载任务的文件名、储存路径、下载进度、下载速度等。进度、状态的回调。</li>
+<li>ZEDownloadOperation是NSOperation的子类，下载功能的实现、暂停等功能。</li>
+<li>ZEDownloadManager单例，将上面俩个类集成，用户通过ZEDownloadManager对象的操作实现下载。</li>
+</ol>
+<h3 id="ZEDownloadModel"><a href="#ZEDownloadModel" class="headerlink" title="ZEDownloadModel"></a>ZEDownloadModel</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@class</span> <span class="title">ZEDownloadModel</span>;</span></div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, ZEDownloadState) &#123;</div><div class="line">    ZEDownloadStateNone = <span class="number">0</span>,       <span class="comment">// 初始状态</span></div><div class="line">    ZEDownloadStateRunning = <span class="number">1</span>,    <span class="comment">// 下载中</span></div><div class="line">    ZEDownloadStateSuspended = <span class="number">2</span>,  <span class="comment">// 下载暂停</span></div><div class="line">    ZEDownloadStateCompleted = <span class="number">3</span>,  <span class="comment">// 下载完成</span></div><div class="line">    ZEDownloadStateFailed  = <span class="number">4</span>,    <span class="comment">// 下载失败</span></div><div class="line">    ZEDownloadStateWaiting = <span class="number">5</span>    <span class="comment">// 等待下载</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">void</span>(^ZEProgressChanged)(ZEDownloadModel *model);</div><div class="line"><span class="keyword">typedef</span> <span class="keyword">void</span>(^ZEStateChanged)(ZEDownloadModel *model);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ZEDownloadModel</span> : <span class="title">NSObject</span></span></div><div class="line"></div><div class="line"><span class="comment">/** 标题 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *title;</div><div class="line"><span class="comment">/** 下载链接 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *downloadUrl;</div><div class="line"><span class="comment">/** 下载速度 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *speedString;</div><div class="line"><span class="comment">/** 下载大小 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *currentSize;</div><div class="line"><span class="comment">/** 总大小 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *totalSize;</div><div class="line"><span class="comment">/** 文件地址 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *localPath;</div><div class="line"><span class="comment">/** 下载编号 用于排序 添加到下载管理器之前设置 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> downloadNum;</div><div class="line"><span class="comment">/** 下载进度 0.0 ~ 1.0 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">double</span> progress;</div><div class="line"><span class="comment">/** 下载状态 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) ZEDownloadState state;</div><div class="line"><span class="comment">/** 1s 前下载大小  */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) int64_t bytesWritten;</div><div class="line"><span class="comment">/** 下载进度数据 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSData</span> *resumeData;</div><div class="line"><span class="comment">/** 用于计算下载速度的时间 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSDate</span> *date;</div><div class="line"><span class="comment">/** 下载按钮的title 可选设置 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSString</span> *stateString;</div><div class="line"></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) ZEProgressChanged progressChanged;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) ZEStateChanged stateChanged;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWtihTitle:(<span class="built_in">NSString</span>*)title url:(<span class="built_in">NSString</span>*)url;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<ol>
+<li>bytesWritten 和 date 是用于 间隔1秒计算一次下载大小和下载速度用的 </li>
+<li>downloadNum属性是任务的下载顺序，我设定的是始终优先下载最早加入的任务，效果如下<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017/03/download.gif" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+</li>
+</ol>
+<p>使用progressChanged和stateChanged Block实时刷新UI 其中是在progress和state的setter方法中调用 state的setter方法中设置提示信息和速度</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)setProgress:(<span class="keyword">double</span>)progress &#123;</div><div class="line">    _progress = progress;</div><div class="line">    <span class="keyword">if</span> (_progressChanged) &#123;</div><div class="line">        <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</div><div class="line">            _progressChanged(<span class="keyword">self</span>);</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)setState:(ZEDownloadState)state &#123;</div><div class="line">    _state = state;</div><div class="line">    <span class="keyword">switch</span> (state) &#123;</div><div class="line">        <span class="keyword">case</span> ZEDownloadStateNone: &#123;</div><div class="line">            <span class="keyword">self</span>.stateString = <span class="string">@"开始下载"</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">case</span> ZEDownloadStateRunning: &#123;</div><div class="line">            <span class="keyword">self</span>.stateString = <span class="string">@"暂停"</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">            </div><div class="line">        <span class="keyword">case</span> ZEDownloadStateCompleted: &#123;</div><div class="line">            <span class="keyword">self</span>.stateString = <span class="string">@"完成"</span>;</div><div class="line">            <span class="keyword">self</span>.speedString = <span class="string">@""</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">            </div><div class="line">        <span class="keyword">case</span> ZEDownloadStateWaiting: &#123;</div><div class="line">            <span class="keyword">self</span>.stateString = <span class="string">@"等待"</span>;</div><div class="line">            <span class="keyword">self</span>.speedString = <span class="string">@""</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">            </div><div class="line">        <span class="keyword">case</span> ZEDownloadStateSuspended: &#123;</div><div class="line">            <span class="keyword">self</span>.stateString = <span class="string">@"继续"</span>;</div><div class="line">            <span class="keyword">self</span>.speedString = <span class="string">@""</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">            </div><div class="line">        <span class="keyword">case</span> ZEDownloadStateFailed: &#123;</div><div class="line">            <span class="keyword">self</span>.stateString = <span class="string">@"重新开始"</span>;</div><div class="line">            <span class="keyword">self</span>.speedString = <span class="string">@"下载失败"</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (_stateChanged) &#123;</div><div class="line">        <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</div><div class="line">            _stateChanged(<span class="keyword">self</span>);</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="ZEDownloadOperation"><a href="#ZEDownloadOperation" class="headerlink" title="ZEDownloadOperation"></a>ZEDownloadOperation</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSInteger</span>,ZEOperationState) &#123;</div><div class="line">    ZEOperationRuning = <span class="number">0</span>,</div><div class="line">    ZEOperationCancelled = <span class="number">1</span>,</div><div class="line">    ZEOperationComplete = <span class="number">2</span>,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> 下载任务 继承NSOperation 使用NSOperationQueue管理</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ZEDownloadOperation</span> : <span class="title">NSOperation</span></span></div><div class="line"></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) ZEDownloadModel *model;</div><div class="line"><span class="comment">/** 任务状态 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">readonly</span>) ZEOperationState state;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWith:(ZEDownloadModel *)model session:(<span class="built_in">NSURLSession</span> *)session;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> 暂停下载</span></div><div class="line"><span class="comment"> */</span></div><div class="line">- (<span class="keyword">void</span>)suspend;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> 完成下载</span></div><div class="line"><span class="comment"> */</span></div><div class="line">- (<span class="keyword">void</span>)downloadFinished;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<ol>
+<li>ZEOperationState用于维护isExecuting、isFinished，NSOperationQueue根据这两个属性检测NSOperation的调度。</li>
+<li>下载任务使用的NSURLSession为共享的session。</li>
+</ol>
+<p>ZEDownloadOperation.m的实现</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ZEDownloadOperation</span>()</span></div><div class="line"></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSURLSessionDownloadTask</span> *task;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableURLRequest</span> *request;</div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSURLSession</span> *session;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ZEDownloadOperation</span></span></div><div class="line"></div><div class="line"><span class="meta">#pragma mark- life cycle</span></div><div class="line">- (<span class="keyword">instancetype</span>)initWith:(ZEDownloadModel *)model session:(<span class="built_in">NSURLSession</span> *)session &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</div><div class="line">        <span class="keyword">self</span>.model = model;</div><div class="line">        <span class="keyword">self</span>.session = session;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)dealloc &#123;</div><div class="line">    <span class="keyword">self</span>.task = <span class="literal">nil</span>;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"dealloc %@"</span>,<span class="keyword">self</span>.description);</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)start &#123;</div><div class="line">    <span class="comment">// 创建下载任务  根据 resumeData 创建新任务或续传任务</span></div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>.model.resumeData) &#123;</div><div class="line">        <span class="keyword">self</span>.task = [<span class="keyword">self</span>.session downloadTaskWithRequest:<span class="keyword">self</span>.request];</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">self</span>.task = [<span class="keyword">self</span>.session downloadTaskWithResumeData:<span class="keyword">self</span>.model.resumeData];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">self</span>.task.downloadModel = <span class="keyword">self</span>.model;</div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     *  开始任务</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    [<span class="keyword">self</span>.task resume];</div><div class="line">    [<span class="keyword">self</span> updateState:ZEOperationRuning];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark- Public method</span></div><div class="line">- (<span class="keyword">void</span>)suspend &#123;</div><div class="line">    [<span class="keyword">self</span> updateState:ZEOperationCancelled];</div><div class="line">    [<span class="keyword">self</span>.task cancelByProducingResumeData:^(<span class="built_in">NSData</span> * _Nullable resumeData) &#123;</div><div class="line">        <span class="keyword">self</span>.model.resumeData = resumeData;</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)downloadFinished &#123;</div><div class="line">    </div><div class="line">    [<span class="keyword">self</span> updateState:ZEOperationComplete];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark- Private method</span></div><div class="line">- (<span class="keyword">void</span>)updateState:(ZEOperationState)state &#123;</div><div class="line">    </div><div class="line">    [<span class="keyword">self</span> willChangeValueForKey:<span class="string">@"isExecuting"</span>];</div><div class="line">    [<span class="keyword">self</span> willChangeValueForKey:<span class="string">@"isFinished"</span>];</div><div class="line">    _state = state;</div><div class="line">    [<span class="keyword">self</span> didChangeValueForKey:<span class="string">@"isFinished"</span>];</div><div class="line">    [<span class="keyword">self</span> didChangeValueForKey:<span class="string">@"isExecuting"</span>];</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark- setter and getter</span></div><div class="line">- (<span class="built_in">NSMutableURLRequest</span> *)request &#123;</div><div class="line">    <span class="keyword">if</span> (_request == <span class="literal">nil</span>) &#123;</div><div class="line">        _request = [[<span class="built_in">NSMutableURLRequest</span> alloc] initWithURL:[<span class="built_in">NSURL</span> URLWithString:<span class="keyword">self</span>.model.downloadUrl]</div><div class="line">                                                cachePolicy: <span class="built_in">NSURLRequestReloadIgnoringLocalCacheData</span></div><div class="line">                                            timeoutInterval:<span class="number">20</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> _request;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">- (<span class="built_in">BOOL</span>)isExecuting &#123;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.state == ZEOperationRuning;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">BOOL</span>)isFinished &#123;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.state == ZEOperationComplete || <span class="keyword">self</span>.state == ZEOperationCancelled;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<ol>
+<li>重写start方法 开启下载任务，只要在start中判断model.resumeData是否为空，就可以新建下载任务或断点续传。</li>
+<li>updateState:方法更新state的值，并手动通知isExecuting、isFinished的改变。</li>
+<li>任务暂停就是取消下载任务，task调用cancelByProducingResumeData方法并存储resumeData值用以继续下载。</li>
+</ol>
+<h3 id="ZEDownloadManager"><a href="#ZEDownloadManager" class="headerlink" title="ZEDownloadManager"></a>ZEDownloadManager</h3><p>ZEDownloadManager设计为单例,对外接口有存放所有任务的数组，添加任务、暂停任务、判断任务是否在以添加，可以设置最大下载数——默认为1.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ZEDownloadManager</span> : <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="built_in">NSMutableArray</span> *_downloadArr;</div><div class="line">    <span class="built_in">NSMutableArray</span> *_completeArr;</div><div class="line">&#125;</div><div class="line"><span class="comment">/** 最大下载数 默认 1 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> maxDownloadCount;</div><div class="line"><span class="comment">/** 所有下载任务 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSArray</span> *downloadArr;</div><div class="line"></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSArray</span> *completeArr;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> 获取单例对象</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment"> @return 实例对象</span></div><div class="line"><span class="comment"> */</span></div><div class="line">+(<span class="keyword">instancetype</span>)manager;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> 添加到下载管理器中 开始或等待下载</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment"> @param model 数据模型</span></div><div class="line"><span class="comment"> */</span></div><div class="line">- (<span class="keyword">void</span>)addDownLoad:(ZEDownloadModel *)model;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> 暂停</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment"> @param model 数据模型</span></div><div class="line"><span class="comment"> */</span></div><div class="line">- (<span class="keyword">void</span>)suspend:(ZEDownloadModel *)model;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> 开始 或 继续</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment"> @param model 数据模型</span></div><div class="line"><span class="comment"> */</span></div><div class="line">- (<span class="keyword">void</span>)resume:(ZEDownloadModel *)model;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> 是否在下载队列中</span></div><div class="line"><span class="comment"> */</span></div><div class="line">- (<span class="built_in">BOOL</span>)isExecuted:(ZEDownloadModel *)model;</div></pre></td></tr></table></figure>
+<p>####ZEDownloadManager.m</p>
+<ul>
+<li>需要的属性</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** 共享的session */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSURLSession</span> *session;</div><div class="line"><span class="comment">/** 下载队列 */</span></div><div class="line"><span class="keyword">@property</span>(<span class="keyword">strong</span>,<span class="keyword">nonatomic</span>) <span class="built_in">NSOperationQueue</span> *downloadQueue;</div><div class="line"><span class="comment">/** 等待队列 */</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableArray</span> *waitingQueue;</div></pre></td></tr></table></figure>
+<p>正在下载的任务加入到downloadQueue，等待下载的任务加入到waitingQueue中，当downloadQueue中有任务完成时把waitingQueue中第一个任务取出加入到downloadQueue中，并在waitingQueue中删除</p>
+<ul>
+<li>创建共享的NSURLSession</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSURLSession</span> *)session &#123;</div><div class="line">    <span class="keyword">if</span> (_session == <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="comment">/**</span></div><div class="line"><span class="comment">         * 创建NSURLSessionConfiguration类的对象, 这个对象被用于创建NSURLSession类的对象.</span></div><div class="line"><span class="comment">         */</span></div><div class="line">        <span class="built_in">NSURLSessionConfiguration</span> *configura = [<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration];</div><div class="line">        <span class="comment">/**</span></div><div class="line"><span class="comment">         * 2. 创建NSURLSession的对象.</span></div><div class="line"><span class="comment">         * 参数一 : NSURLSessionConfiguration类的对象.(第1步创建的对象.)</span></div><div class="line"><span class="comment">         * 参数二 : session的代理人. 如果为nil, 系统将会提供一个代理人.</span></div><div class="line"><span class="comment">         * 参数三 : 一个队列, 代理方法在这个队列中执行. 如果为nil, 系统会自动创建一系列的队列.</span></div><div class="line"><span class="comment">         * 注: 只能通过这个方法给session设置代理人, 因为在NSURLSession中delegate属性是只读的.</span></div><div class="line"><span class="comment">         */</span></div><div class="line">        _session = [<span class="built_in">NSURLSession</span> sessionWithConfiguration:configura delegate:<span class="keyword">self</span> delegateQueue:<span class="literal">nil</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> _session;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>创建NSOperationQueue，管理正在下载的任务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (NSOperationQueue *)downloadQueue &#123;</div><div class="line">    if (_downloadQueue == nil) &#123;</div><div class="line">        _downloadQueue = [[NSOperationQueue alloc]init];</div><div class="line">    &#125;</div><div class="line">    return _downloadQueue;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>添加任务</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)addDownLoad:(ZEDownloadModel *)model &#123;</div><div class="line">    [_downloadArr addObject:model];</div><div class="line">    ZEDownloadOperation *operation = [[ZEDownloadOperation alloc]initWith:model session:<span class="keyword">self</span>.session];</div><div class="line">    [<span class="keyword">self</span> addDownArrOrWaitingArr:operation];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>addDownArrOrWaitingArr： 是将任务加入到下载队列或等待队列，</p>
+<ul>
+<li>暂停任务</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)suspend:(ZEDownloadModel *)model&#123;</div><div class="line">    ZEDownloadOperation *operation = [<span class="keyword">self</span> operatonForModel:model];</div><div class="line">    model.state = ZEDownloadStateSuspended;</div><div class="line">    [operation suspend];</div><div class="line">    <span class="comment">//下载队列未达到最大下载数 将operation添加到下载队列 并将自己从等待队列中删除</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.downloadQueue.operations.count &lt; <span class="keyword">self</span>.maxDownloadCount) &#123;</div><div class="line">        [<span class="keyword">self</span> nextDownload];</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([<span class="keyword">self</span>.waitingQueue containsObject:operation]) &#123; <span class="comment">//下载队列达到最大下载数  将自己从等待队列中删除</span></div><div class="line">        [<span class="keyword">self</span>.waitingQueue removeObject:operation];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果暂停下载中的任务就开始下一个，如果是暂停等待中的任务就在等待队列中删除。</p>
+<ul>
+<li>继续下载</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)resume:(ZEDownloadModel *)model &#123;</div><div class="line">    ZEDownloadOperation *operation = [<span class="keyword">self</span> operatonForModel:model];</div><div class="line">    [<span class="keyword">self</span> addDownArrOrWaitingArr:operation];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同样是调用addDownArrOrWaitingArr：方法，<strong><em>添加到等待队列后，对等待队列按model.downloadNum升序排序。</em></strong></p>
+<ul>
+<li>NSURLSessionDelegate</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#pragma mark- NSURLSessionDelegate</span></div><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session downloadTask:(<span class="built_in">NSURLSessionDownloadTask</span> *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite &#123;</div><div class="line"></div><div class="line">    <span class="built_in">NSDate</span> *currentDate = [<span class="built_in">NSDate</span> date];</div><div class="line">    <span class="built_in">NSTimeInterval</span> interval = [currentDate timeIntervalSinceDate:downloadTask.downloadModel.date];</div><div class="line">    <span class="keyword">if</span> (downloadTask.downloadModel.date == <span class="literal">nil</span> || interval &gt; <span class="number">1</span> || totalBytesWritten == totalBytesExpectedToWrite) &#123;</div><div class="line">        <span class="keyword">double</span> progress = (<span class="keyword">double</span>)totalBytesWritten / totalBytesExpectedToWrite;</div><div class="line">        <span class="built_in">NSString</span> *speedStr = [<span class="built_in">NSByteCountFormatter</span> stringFromByteCount:totalBytesWritten - downloadTask.downloadModel.bytesWritten</div><div class="line">                                                            countStyle:<span class="built_in">NSByteCountFormatterCountStyleMemory</span>];</div><div class="line">        <span class="built_in">NSString</span> *speedString = [speedStr stringByAppendingString:<span class="string">@"/s"</span>];</div><div class="line">        <span class="built_in">NSString</span> *currentSize = [<span class="built_in">NSByteCountFormatter</span> stringFromByteCount:totalBytesWritten</div><div class="line">                                                               countStyle:<span class="built_in">NSByteCountFormatterCountStyleMemory</span>];</div><div class="line">        <span class="built_in">NSString</span> *totalSize = [<span class="built_in">NSByteCountFormatter</span> stringFromByteCount:totalBytesExpectedToWrite</div><div class="line">                                                             countStyle:<span class="built_in">NSByteCountFormatterCountStyleMemory</span>];</div><div class="line">        downloadTask.downloadModel.bytesWritten = totalBytesWritten;</div><div class="line">        downloadTask.downloadModel.speedString = speedString;</div><div class="line">        downloadTask.downloadModel.progress = progress;</div><div class="line">        downloadTask.downloadModel.currentSize = currentSize;</div><div class="line">        downloadTask.downloadModel.totalSize = totalSize;</div><div class="line">        downloadTask.downloadModel.date = currentDate;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session downloadTask:(<span class="built_in">NSURLSessionDownloadTask</span> *)downloadTask didFinishDownloadingToURL:(<span class="built_in">NSURL</span> *)location &#123;</div><div class="line">    <span class="built_in">NSURL</span> *documentsDirectoryURL = [[<span class="built_in">NSFileManager</span> defaultManager] URLForDirectory:<span class="built_in">NSDocumentDirectory</span> inDomain:<span class="built_in">NSUserDomainMask</span> appropriateForURL:<span class="literal">nil</span> create:<span class="literal">NO</span> error:<span class="literal">nil</span>];</div><div class="line">    <span class="built_in">NSURL</span> *filename = [documentsDirectoryURL URLByAppendingPathComponent:downloadTask.response.suggestedFilename];</div><div class="line">    [[<span class="built_in">NSFileManager</span> defaultManager] moveItemAtURL:location toURL:filename error:<span class="literal">nil</span>];</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"fileUrl : %@"</span>,filename.absoluteString);</div><div class="line">    downloadTask.downloadModel.localPath = filename.absoluteString;</div><div class="line">    downloadTask.downloadModel.state = ZEDownloadStateCompleted;</div><div class="line">    ZEDownloadOperation *operation = [<span class="keyword">self</span> findOperationInDownloadQueue:downloadTask.downloadModel];</div><div class="line">    [<span class="keyword">self</span> moveToCompleteArr:operation];</div><div class="line">    [<span class="keyword">self</span> nextDownload];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session task:(<span class="built_in">NSURLSessionTask</span> *)task didCompleteWithError:(<span class="keyword">nullable</span> <span class="built_in">NSError</span> *)error &#123;</div><div class="line">    <span class="comment">// code &lt; 0 是发生错误  -999 是task 被取消了  暂且如下处理</span></div><div class="line">    <span class="keyword">if</span> (error.code &lt; <span class="number">0</span> &amp;&amp; error.code != <span class="number">-999</span>) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"发生错误"</span>);</div><div class="line">        task.downloadModel.resumeData = error.userInfo[<span class="built_in">NSURLSessionDownloadTaskResumeData</span>];</div><div class="line">        task.downloadModel.state = ZEDownloadStateFailed;</div><div class="line">        ZEDownloadOperation *operation = [<span class="keyword">self</span> findOperationInDownloadQueue:task.downloadModel];</div><div class="line">        [operation downloadFinished];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>更新数据为1秒更新一次，<em>*</em>项目中对NSURLSessionTask添加了category，方便获取数据模型；<br>error回调方法中，-999 是取消，以为在suspend方法中已经设置了model.state，并获取了resumeData数据，所以此处不做处理。</p>
+<h3 id="ZEDownloadManager使用"><a href="#ZEDownloadManager使用" class="headerlink" title="ZEDownloadManager使用"></a>ZEDownloadManager使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidLoad];</div><div class="line">	<span class="comment">//设置最大下载数</span></div><div class="line">    ZEDownloader.maxDownloadCount = <span class="number">2</span>;</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)download:(<span class="built_in">UIButton</span> *)sender &#123;</div><div class="line">    <span class="built_in">NSInteger</span> index = sender.tag - <span class="number">100</span>;</div><div class="line">    ZEDownloadModel *model = <span class="keyword">self</span>.array[index];</div><div class="line">    [sender setBackgroundColor:[<span class="built_in">UIColor</span> lightGrayColor]];</div><div class="line">    <span class="keyword">if</span> ([ZEDownloader isExecuted:model]) &#123;</div><div class="line">        </div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"该资源正在下载"</span>);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    model.downloadNum = ZEDownloader.downloadArr.count;</div><div class="line">    [ZEDownloader addDownLoad:model];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>获取进度等数据</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)tableView:(<span class="built_in">UITableView</span> *)tableView willDisplayCell:(<span class="built_in">UITableViewCell</span> *)cell forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</div><div class="line">    DownloadTableViewCell *displayCell = (DownloadTableViewCell *)cell;</div><div class="line">    ZEDownloadModel *model = ZEDownloader.downloadArr[indexPath.row];</div><div class="line">    [displayCell setModel:model];</div><div class="line">    </div><div class="line">    model.progressChanged = ^(ZEDownloadModel *model) &#123;</div><div class="line">        [displayCell setModel:model];</div><div class="line">    &#125;;</div><div class="line">    model.stateChanged = ^(ZEDownloadModel *model) &#123;</div><div class="line">        [displayCell setModel:model];</div><div class="line">        [tableView reloadData];</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="功能都已近实现，具体可以查看Demo-如果有错误的地方欢迎指出。"><a href="#功能都已近实现，具体可以查看Demo-如果有错误的地方欢迎指出。" class="headerlink" title="功能都已近实现，具体可以查看Demo,如果有错误的地方欢迎指出。"></a>功能都已近实现，具体可以查看<a href="https://github.com/ze230123/ZEDownload" target="_blank" rel="external">Demo</a>,如果有错误的地方欢迎指出。</h3>
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+
+        
+        文章标题： <a href="/2017/03/02/downloadManager/" target="_blank" rel="external">http://yoursite.com/2017/03/02/downloadManager/</a>
+        
+    </div>
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/cover.jpg" alt="泽i">
+            泽i
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2017/03/02/downloadManager/&title=《ZEDownloadManager 下载管理器》 — 泽i的job&pic=http://yoursite.com/img/cover.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2017/03/02/downloadManager/&title=《ZEDownloadManager 下载管理器》 — 泽i的job&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/03/02/downloadManager/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ZEDownloadManager 下载管理器》 — 泽i的job&url=http://yoursite.com/2017/03/02/downloadManager/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2017/03/02/downloadManager/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/08/18/verification/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">常用手机号、身份证号码、银行卡验证</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/02/27/NSURLSession/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">NSURLSession使用</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>泽i &copy; 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2017/03/02/downloadManager/&title=《ZEDownloadManager 下载管理器》 — 泽i的job&pic=http://yoursite.com/img/cover.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2017/03/02/downloadManager/&title=《ZEDownloadManager 下载管理器》 — 泽i的job&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/03/02/downloadManager/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ZEDownloadManager 下载管理器》 — 泽i的job&url=http://yoursite.com/2017/03/02/downloadManager/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2017/03/02/downloadManager/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2017/03/02/downloadManager/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

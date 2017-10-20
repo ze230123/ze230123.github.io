@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>NSURLSession使用 | 泽i的job</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#428bca">
+    
+    
+    <meta name="keywords" content="学习">
+    <meta name="description" content="使用NSURLSession有两步：  通过NSURLSession的实例创建Task； 执行task  NSURLSessionTaskNSURLSessionTask可以简单的理解为任务，如数据请求任务、上传任务、下载任务。  NSURLSessionTask     会话中任务的基类 NSURLSessionDataTask     数据请求任务 NSURLSessionUploadTask">
+<meta name="keywords" content="学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSURLSession使用">
+<meta property="og:url" content="http://yoursite.com/2017/02/27/NSURLSession/index.html">
+<meta property="og:site_name" content="泽i的job">
+<meta property="og:description" content="使用NSURLSession有两步：  通过NSURLSession的实例创建Task； 执行task  NSURLSessionTaskNSURLSessionTask可以简单的理解为任务，如数据请求任务、上传任务、下载任务。  NSURLSessionTask     会话中任务的基类 NSURLSessionDataTask     数据请求任务 NSURLSessionUploadTask">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-10-20T05:16:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NSURLSession使用">
+<meta name="twitter:description" content="使用NSURLSession有两步：  通过NSURLSession的实例创建Task； 执行task  NSURLSessionTaskNSURLSessionTask可以简单的理解为任务，如数据请求任务、上传任务、下载任务。  NSURLSessionTask     会话中任务的基类 NSURLSessionDataTask     数据请求任务 NSURLSessionUploadTask">
+    
+        <link rel="alternate" type="application/atom+xml" title="泽i的job" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/cover.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">泽i</h5>
+          <a href="mailto:4674069@qq.com" title="4674069@qq.com" class="mail">4674069@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yscoder" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-card"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">NSURLSession使用</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">NSURLSession使用</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-02-27T12:00:00.000Z" itemprop="datePublished" class="page-time">
+  2017-02-27
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/OC/">OC</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NSURLSessionTask"><span class="post-toc-text">NSURLSessionTask</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NSURLSessionDataTask"><span class="post-toc-text">NSURLSessionDataTask</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NSURLSessionDownloadTask-简单下载"><span class="post-toc-text">NSURLSessionDownloadTask 简单下载</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NSURLSessionDownloadTask（断点续传）"><span class="post-toc-text">NSURLSessionDownloadTask（断点续传）</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-NSURLSession"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">NSURLSession使用</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017-02-27 20:00:00" datetime="2017-02-27T12:00:00.000Z"  itemprop="datePublished">2017-02-27</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/OC/">OC</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>使用NSURLSession有两步：</p>
+<ol>
+<li>通过NSURLSession的实例创建Task；</li>
+<li>执行task</li>
+</ol>
+<h2 id="NSURLSessionTask"><a href="#NSURLSessionTask" class="headerlink" title="NSURLSessionTask"></a>NSURLSessionTask</h2><p>NSURLSessionTask可以简单的理解为任务，如数据请求任务、上传任务、下载任务。</p>
+<ul>
+<li><strong>NSURLSessionTask</strong>     会话中任务的基类<ul>
+<li><strong>NSURLSessionDataTask</strong>     数据请求任务<ul>
+<li><strong>NSURLSessionUploadTask</strong>     上传任务</li>
+</ul>
+</li>
+<li><strong>NSURLSessionDownloadTask</strong>  下载任务</li>
+<li><strong>NSURLSessionStreamTask</strong>  用于建立TCP/IP连接的任务</li>
+</ul>
+</li>
+</ul>
+<h2 id="NSURLSessionDataTask"><a href="#NSURLSessionDataTask" class="headerlink" title="NSURLSessionDataTask"></a>NSURLSessionDataTask</h2><p>数据请求任务常用的为Get和Post请求。</p>
+<ul>
+<li>Get</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"你的URL"</span>];</div><div class="line"><span class="comment">// 获得共享的单例会话对象。</span></div><div class="line"><span class="built_in">NSURLSession</span> *session = [<span class="built_in">NSURLSession</span> sharedSession];</div><div class="line"><span class="comment">// 创建任务</span></div><div class="line"><span class="built_in">NSURLSessionDataTask</span> *task = [session dataTaskWithURL:url</div><div class="line">                                    completionHandler:^(<span class="built_in">NSData</span> * _Nullable data, <span class="built_in">NSURLResponse</span> * _Nullable response, <span class="built_in">NSError</span> * _Nullable error) &#123;</div><div class="line">                                        <span class="comment">// 解析返回的数据 data</span></div><div class="line">                                    &#125;];</div><div class="line"><span class="comment">// 启动任务</span></div><div class="line">[task resume];</div></pre></td></tr></table></figure>
+<ul>
+<li>Post</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//确定请求路径</span></div><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://120.25.226.186:32812/login"</span>];</div><div class="line"><span class="comment">//创建可变请求对象</span></div><div class="line"><span class="built_in">NSMutableURLRequest</span> *request = [<span class="built_in">NSMutableURLRequest</span> requestWithURL:url];</div><div class="line"><span class="comment">//修改请求方法</span></div><div class="line">request.HTTPMethod = <span class="string">@"POST"</span>;</div><div class="line"><span class="comment">//设置请求体</span></div><div class="line">request.HTTPBody = [<span class="string">@"username=520&amp;pwd=520&amp;type=JSON"</span> dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line"><span class="comment">//创建会话对象</span></div><div class="line"><span class="built_in">NSURLSession</span> *session = [<span class="built_in">NSURLSession</span> sharedSession];</div><div class="line"><span class="comment">//创建请求 Task</span></div><div class="line"><span class="built_in">NSURLSessionDataTask</span> *dataTask = [session dataTaskWithRequest:request</div><div class="line">                                            completionHandler:^(<span class="built_in">NSData</span> * _Nullable data, <span class="built_in">NSURLResponse</span> * _Nullable response, <span class="built_in">NSError</span> * _Nullable error) &#123;</div><div class="line">                                                <span class="comment">// 解析返回的数据 data</span></div><div class="line">                                            &#125;];</div><div class="line"><span class="comment">//发送请求</span></div><div class="line">[dataTask resume];</div></pre></td></tr></table></figure>
+<h2 id="NSURLSessionDownloadTask-简单下载"><a href="#NSURLSessionDownloadTask-简单下载" class="headerlink" title="NSURLSessionDownloadTask 简单下载"></a>NSURLSessionDownloadTask 简单下载</h2><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//确定请求路径</span></div><div class="line"> <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://120.25.226.186:32812/resources/images/minion_02.png"</span>];</div><div class="line"> <span class="comment">//创建请求对象</span></div><div class="line"> <span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</div><div class="line"> <span class="comment">//创建会话对象</span></div><div class="line"> <span class="built_in">NSURLSession</span> *session = [<span class="built_in">NSURLSession</span> sharedSession];</div><div class="line"> <span class="comment">//创建会话请求</span></div><div class="line"> <span class="comment">//优点：该方法内部已经完成了边接收数据边写沙盒的操作，解决了内存飙升的问题</span></div><div class="line"> <span class="built_in">NSURLSessionDownloadTask</span> *downTask = [session downloadTaskWithRequest:request </div><div class="line">     completionHandler:^(<span class="built_in">NSURL</span> * _Nullable location, <span class="built_in">NSURLResponse</span> * _Nullable response, <span class="built_in">NSError</span> * _Nullable error) &#123;</div><div class="line"></div><div class="line">     <span class="comment">//默认存储到临时文件夹 tmp 中，需要剪切文件到 cache</span></div><div class="line">     <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, location);<span class="comment">//目标位置</span></div><div class="line">     <span class="built_in">NSString</span> *fullPath = [[<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject]  </div><div class="line">                         stringByAppendingPathComponent:response.suggestedFilename];</div><div class="line"></div><div class="line">     <span class="comment">/**</span></div><div class="line"><span class="comment">      fileURLWithPath:有协议头</span></div><div class="line"><span class="comment">      URLWithString:无协议头</span></div><div class="line"><span class="comment">      */</span></div><div class="line">     [[<span class="built_in">NSFileManager</span> defaultManager] moveItemAtURL:location toURL:[<span class="built_in">NSURL</span> fileURLWithPath:fullPath] error:<span class="literal">nil</span>];</div><div class="line"></div><div class="line"> &#125;];</div><div class="line"> <span class="comment">//发送请求</span></div><div class="line"> [downTask resume];</div></pre></td></tr></table></figure>
+<p>以上方法无法监听下载进度，如要获取下载进度，可以使用代理的方式进行下载。</p>
+<h2 id="NSURLSessionDownloadTask（断点续传）"><a href="#NSURLSessionDownloadTask（断点续传）" class="headerlink" title="NSURLSessionDownloadTask（断点续传）"></a>NSURLSessionDownloadTask（断点续传）</h2><ul>
+<li>创建NSURLSession，设置代理</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSURLSession</span> *)session &#123;</div><div class="line">    <span class="keyword">if</span> (_session == <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="built_in">NSURLSessionConfiguration</span> *configuration = [<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration];</div><div class="line">        _session = [<span class="built_in">NSURLSession</span> sessionWithConfiguration:configuration</div><div class="line">                                                 delegate:<span class="keyword">self</span></div><div class="line">                                            delegateQueue:<span class="literal">nil</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> _session;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>开始下载</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 开始下载</span></div><div class="line">- (<span class="keyword">IBAction</span>)start:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>.downloadTask) &#123;</div><div class="line">        <span class="keyword">self</span>.downloadTask = [<span class="keyword">self</span>.session downloadTaskWithURL:URL];</div><div class="line">        [<span class="keyword">self</span>.downloadTask resume];</div><div class="line">        <span class="keyword">self</span>.titleLabel.text = <span class="string">@"开始下载"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>暂停下载</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 暂停下载</span></div><div class="line">- (<span class="keyword">IBAction</span>)pause:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    [<span class="keyword">self</span>.downloadTask cancelByProducingResumeData:^(<span class="built_in">NSData</span> * _Nullable resumeData) &#123;</div><div class="line">        <span class="keyword">self</span>.resumeData = resumeData;</div><div class="line">        <span class="keyword">self</span>.downloadTask = <span class="literal">nil</span>;</div><div class="line">    &#125;];</div><div class="line">    <span class="keyword">self</span>.titleLabel.text = <span class="string">@"暂停下载"</span>;</div><div class="line">    <span class="keyword">self</span>.speedLabel.text = <span class="string">@"0KB/s"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>删除任务 (沙盒中的临时文件)</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">IBAction</span>)delete:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    [<span class="keyword">self</span>.downloadTask cancelByProducingResumeData:^(<span class="built_in">NSData</span> * _Nullable resumeData) &#123;</div><div class="line">        <span class="comment">// 将resumeData 序列化</span></div><div class="line">        <span class="built_in">NSError</span> *listError = <span class="literal">nil</span>;</div><div class="line">        <span class="built_in">NSDictionary</span> *resumeDictionary = [<span class="built_in">NSPropertyListSerialization</span> propertyListWithData:resumeData options:<span class="built_in">NSPropertyListImmutable</span> format:<span class="literal">nil</span> error:&amp;listError];</div><div class="line">        <span class="keyword">if</span> (listError) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,listError.description);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 取得临时文件的名字</span></div><div class="line">        <span class="built_in">NSString</span> *fileName = [resumeDictionary objectForKey:<span class="string">@"NSURLSessionResumeInfoTempFileName"</span>];</div><div class="line">        <span class="comment">// 获取 tmp 临时文件夹  拼接临时文件名</span></div><div class="line">        <span class="built_in">NSString</span> *tmp = [<span class="built_in">NSTemporaryDirectory</span>() stringByAppendingString:fileName];</div><div class="line">        <span class="comment">// 删除临时文件</span></div><div class="line">        <span class="built_in">NSError</span> *fileError = <span class="literal">nil</span>;</div><div class="line">        [[<span class="built_in">NSFileManager</span> defaultManager] removeItemAtPath:tmp error:&amp;fileError];</div><div class="line">        <span class="keyword">if</span> (fileError) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,fileEyrror.description);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">self</span>.resumeData = <span class="literal">nil</span>;</div><div class="line">        <span class="keyword">self</span>.downloadTask = <span class="literal">nil</span>;</div><div class="line">    &#125;];</div><div class="line">    </div><div class="line">    <span class="keyword">self</span>.titleLabel.text = <span class="string">@"删除任务"</span>;</div><div class="line">    <span class="keyword">self</span>.progressView.progress = <span class="number">0</span>;</div><div class="line">    <span class="keyword">self</span>.progressLabel.text = <span class="string">@""</span>;</div><div class="line">    <span class="keyword">self</span>.speedLabel.text = <span class="string">@"0KB/s"</span>;</div><div class="line">    <span class="keyword">self</span>.sizeLabel.text = <span class="string">@"--/--"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>读取resumeData中临时文件的方法是在<a href="http://stackoverflow.com/questions/21895853/how-can-i-check-that-an-nsdata-blob-is-valid-as-resumedata-for-an-nsurlsessiondo?answertab=votes#tab-top" target="_blank" rel="external">Stack Overflow</a>找到的,实际上resumeData是一个plist文件</strong></p>
+<ul>
+<li>遵守NSURLSessionDelegate协议，实现协议方法</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//下载完成</span></div><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session</div><div class="line">      downloadTask:(<span class="built_in">NSURLSessionDownloadTask</span> *)downloadTask</div><div class="line">didFinishDownloadingToURL:(<span class="built_in">NSURL</span> *)location &#123;</div><div class="line">    <span class="comment">//获取Downloads文件夹</span></div><div class="line">    <span class="built_in">NSURL</span> *documentsDirectoryURL = [[<span class="built_in">NSFileManager</span> defaultManager] URLForDirectory:<span class="built_in">NSDownloadsDirectory</span> inDomain:<span class="built_in">NSUserDomainMask</span> appropriateForURL:<span class="literal">nil</span> create:<span class="literal">YES</span> error:<span class="literal">nil</span>];</div><div class="line">    <span class="comment">//修改文件名</span></div><div class="line">    <span class="built_in">NSURL</span> *filename = [documentsDirectoryURL URLByAppendingPathComponent:downloadTask.response.suggestedFilename];</div><div class="line">    <span class="comment">// 剪切文件</span></div><div class="line">    [[<span class="built_in">NSFileManager</span> defaultManager] moveItemAtURL:location toURL:filename error:<span class="literal">nil</span>];</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,filename.path);</div><div class="line">    <span class="keyword">self</span>.downloadTask = <span class="literal">nil</span>;</div><div class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</div><div class="line">        <span class="keyword">self</span>.titleLabel.text = <span class="string">@"下载完成"</span>;</div><div class="line">        <span class="keyword">self</span>.speedLabel.text = <span class="string">@"0KB/s"</span>;</div><div class="line">        <span class="keyword">self</span>.pathLabel.text = filename.absoluteString;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"><span class="comment">//下载进度</span></div><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session</div><div class="line">      downloadTask:(<span class="built_in">NSURLSessionDownloadTask</span> *)downloadTask</div><div class="line">      didWriteData:(int64_t)bytesWritten</div><div class="line"> totalBytesWritten:(int64_t)totalBytesWritten</div><div class="line">totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite &#123;</div><div class="line">    <span class="comment">//计算下载进度</span></div><div class="line">    <span class="keyword">double</span> progress = (<span class="keyword">double</span>)totalBytesWritten / totalBytesExpectedToWrite;</div><div class="line">    <span class="comment">//计算已经下载的大小</span></div><div class="line">    <span class="built_in">NSString</span> *currentSize = [<span class="built_in">NSByteCountFormatter</span> stringFromByteCount:totalBytesWritten</div><div class="line">                                                           countStyle:<span class="built_in">NSByteCountFormatterCountStyleMemory</span>];</div><div class="line">    <span class="comment">//计算总大小</span></div><div class="line">    <span class="built_in">NSString</span> *totalSize = [<span class="built_in">NSByteCountFormatter</span> stringFromByteCount:totalBytesExpectedToWrite</div><div class="line">                                                         countStyle:<span class="built_in">NSByteCountFormatterCountStyleMemory</span>];</div><div class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</div><div class="line">        <span class="keyword">self</span>.sizeLabel.text = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@/%@"</span>,currentSize,totalSize];</div><div class="line">        <span class="keyword">self</span>.progressView.progress = progress;</div><div class="line">        <span class="keyword">self</span>.progressLabel.text = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%.1f%%"</span>,progress*<span class="number">100</span>];</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="comment">// 计算下载速度</span></div><div class="line">    <span class="built_in">NSDate</span> *currentDate = [<span class="built_in">NSDate</span> date];</div><div class="line">    <span class="built_in">NSTimeInterval</span> interval = [currentDate timeIntervalSinceDate:<span class="keyword">self</span>.date];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (interval &gt;= <span class="number">1</span> || totalBytesWritten == totalBytesExpectedToWrite) &#123;</div><div class="line"></div><div class="line">        <span class="built_in">NSString</span> *speedStr = [<span class="built_in">NSByteCountFormatter</span> stringFromByteCount:(totalBytesWritten - <span class="keyword">self</span>.totalBytesWritten)/interval</div><div class="line">                                                            countStyle:<span class="built_in">NSByteCountFormatterCountStyleMemory</span>];</div><div class="line">        <span class="built_in">NSString</span> *speedString = [speedStr stringByAppendingString:<span class="string">@"/s"</span>];</div><div class="line">        </div><div class="line">        <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</div><div class="line">            <span class="keyword">self</span>.speedLabel.text = speedString;</div><div class="line">        &#125;);</div><div class="line">        <span class="keyword">self</span>.totalBytesWritten = totalBytesWritten;</div><div class="line">        <span class="keyword">self</span>.date = currentDate;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="https://github.com/ze230123/Download" target="_blank" rel="external">断点续传的Demo</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+
+        
+        文章标题： <a href="/2017/02/27/NSURLSession/" target="_blank" rel="external">http://yoursite.com/2017/02/27/NSURLSession/</a>
+        
+    </div>
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/cover.jpg" alt="泽i">
+            泽i
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2017/02/27/NSURLSession/&title=《NSURLSession使用》 — 泽i的job&pic=http://yoursite.com/img/cover.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2017/02/27/NSURLSession/&title=《NSURLSession使用》 — 泽i的job&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/02/27/NSURLSession/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《NSURLSession使用》 — 泽i的job&url=http://yoursite.com/2017/02/27/NSURLSession/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2017/02/27/NSURLSession/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2017/03/02/downloadManager/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">ZEDownloadManager 下载管理器</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/02/26/NSURLSessionConfiguration/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">NSURLSessionConfiguration使用</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>泽i &copy; 2017</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2017/02/27/NSURLSession/&title=《NSURLSession使用》 — 泽i的job&pic=http://yoursite.com/img/cover.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2017/02/27/NSURLSession/&title=《NSURLSession使用》 — 泽i的job&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2017/02/27/NSURLSession/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《NSURLSession使用》 — 泽i的job&url=http://yoursite.com/2017/02/27/NSURLSession/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2017/02/27/NSURLSession/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2017/02/27/NSURLSession/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
