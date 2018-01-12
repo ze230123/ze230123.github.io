@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Swift获取通讯录信息 | 泽i blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#428bca">
+    
+    
+    <meta name="keywords" content="UI">
+    <meta name="description" content="在iOS 9之后通过 Contacts FrameWork 获取通讯录信息，AddressBook framework被废弃。 Contacts FrameWork包含两种获取通讯录方式  ContactsUI: 通过系统提供的通讯录交互界面来访问 Contacts: 没有界面，通过代码来获取所有联系人信息  本文介绍Contacts使用 一、Contacts介绍 Contacts使用步骤  获取">
+<meta name="keywords" content="UI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift获取通讯录信息">
+<meta property="og:url" content="http://yoursite.com/2018/01/12/Contacts/index.html">
+<meta property="og:site_name" content="泽i blog">
+<meta property="og:description" content="在iOS 9之后通过 Contacts FrameWork 获取通讯录信息，AddressBook framework被废弃。 Contacts FrameWork包含两种获取通讯录方式  ContactsUI: 通过系统提供的通讯录交互界面来访问 Contacts: 没有界面，通过代码来获取所有联系人信息  本文介绍Contacts使用 一、Contacts介绍 Contacts使用步骤  获取">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-01-12T10:34:36.274Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift获取通讯录信息">
+<meta name="twitter:description" content="在iOS 9之后通过 Contacts FrameWork 获取通讯录信息，AddressBook framework被废弃。 Contacts FrameWork包含两种获取通讯录方式  ContactsUI: 通过系统提供的通讯录交互界面来访问 Contacts: 没有界面，通过代码来获取所有联系人信息  本文介绍Contacts使用 一、Contacts介绍 Contacts使用步骤  获取">
+    
+        <link rel="alternate" type="application/atom+xml" title="泽i blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu"  >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/cover.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">泽i</h5>
+          <a href="mailto:4674069@qq.com" title="4674069@qq.com" class="mail">4674069@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                标签
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                分类
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yscoder" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/about"  >
+                <i class="icon icon-lg icon-address-card"></i>
+                关于
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Swift获取通讯录信息</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Swift获取通讯录信息</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-01-12T09:38:56.000Z" itemprop="datePublished" class="page-time">
+  2018-01-12
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/swift/">swift</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、Contacts介绍"><span class="post-toc-text">一、Contacts介绍</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、获取联系人"><span class="post-toc-text">二、获取联系人</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#示例代码"><span class="post-toc-text">示例代码</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Contacts"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Swift获取通讯录信息</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-01-12 17:38:56" datetime="2018-01-12T09:38:56.000Z"  itemprop="datePublished">2018-01-12</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/swift/">swift</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>在iOS 9之后通过 Contacts FrameWork 获取通讯录信息，AddressBook framework被废弃。</p>
+<p>Contacts FrameWork包含两种获取通讯录方式</p>
+<ul>
+<li>ContactsUI: 通过系统提供的通讯录交互界面来访问</li>
+<li>Contacts: 没有界面，通过代码来获取所有联系人信息</li>
+</ul>
+<p>本文介绍Contacts使用</p>
+<h3 id="一、Contacts介绍"><a href="#一、Contacts介绍" class="headerlink" title="一、Contacts介绍"></a>一、Contacts介绍</h3><ul>
+<li><p>Contacts使用步骤</p>
+<ol>
+<li>获取用户授权，如果授权继续下面的步骤</li>
+<li>创建通讯录对象</li>
+<li>创建请求对象</li>
+<li>遍历获取的联系人对象</li>
+</ol>
+</li>
+<li><p>联系人记录的属性</p>
+<p>  每条联系人记录的属性分为单值属性和多值属性</p>
+<ol>
+<li><p>单值属性是只有一个值的属性:</p>
+<ul>
+<li>familyName ：姓</li>
+<li>givenName ：名</li>
+<li>middleName ：中间名</li>
+<li>previousFamilyName ：前缀</li>
+<li>nameSuffix ：后缀</li>
+<li>phoneticFamilyName ：姓氏汉语拼音或音标</li>
+<li>phoneticGivenName ：名字汉语拼音或音标</li>
+<li>nickname ：昵称</li>
+<li>organizationName ：公司（组织）</li>
+<li>jobTitle ：职位</li>
+<li>departmentName ：部门</li>
+<li>note ：备注</li>
+</ul>
+</li>
+<li><p>多值属性是包含多个值的集合类型：</p>
+<ul>
+<li>phoneNumbers ：电话</li>
+<li>emailAddresses ：Email</li>
+<li>postalAddresses ：地址</li>
+<li>urlAddresses ：URL属性</li>
+<li>dates ：纪念日</li>
+<li>instantMessageAddresses ：获取即时通讯(IM)</li>
+<li>socialProfiles ：社交账号</li>
+<li>contactRelations ：亲属关系人</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>多值属性标签的本地名称</p>
+<p>  在多值属性中包含了 label（标签）、value（值）和 ID 等部分，其中标签和值都是可以重复的，而 ID 是不能重复的。<br>对于标签，我们可以使用 CNLabeledValue<nsstring>.localizedString(forLabel:) 方法转为本地标签名（即能看得懂的标签名，比如 work、home）。要不然打印出来的是 <code>_$!&lt;Home&gt;!$_</code>，<code>_$!&lt;Work&gt;!$_</code> 这样的数据。</nsstring></p>
+</li>
+</ul>
+<h3 id="二、获取联系人"><a href="#二、获取联系人" class="headerlink" title="二、获取联系人"></a>二、获取联系人</h3><p><strong>不要忘记在info.plist中添加Privacy - Contacts Usage Description</strong></p>
+<h5 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> UIKit</div><div class="line"><span class="keyword">import</span> Contacts</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.viewDidLoad()</div><div class="line">        <span class="type">CNContactStore</span>().requestAccess(<span class="keyword">for</span>: .contacts) &#123; (isRight, error) <span class="keyword">in</span></div><div class="line">            <span class="keyword">if</span> isRight &#123;</div><div class="line">                <span class="keyword">self</span>.loadContactsData()</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">loadContactsData</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="comment">// 获取授权状态</span></div><div class="line">        <span class="keyword">let</span> status = <span class="type">CNContactStore</span>.authorizationStatus(<span class="keyword">for</span>: .contacts)</div><div class="line">        <span class="comment">// 判断当前状态</span></div><div class="line">        <span class="keyword">guard</span> status == .authorized <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</div><div class="line">        <span class="comment">// 获取通讯录对象</span></div><div class="line">        <span class="keyword">let</span> store = <span class="type">CNContactStore</span>()</div><div class="line">        <span class="comment">//获取Fetch,并且指定要获取联系人中的什么属性</span></div><div class="line">        <span class="keyword">let</span> keys = [<span class="type">CNContactFamilyNameKey</span>, <span class="type">CNContactGivenNameKey</span>, <span class="type">CNContactNicknameKey</span>,</div><div class="line">                    <span class="type">CNContactOrganizationNameKey</span>, <span class="type">CNContactJobTitleKey</span>,</div><div class="line">                    <span class="type">CNContactDepartmentNameKey</span>, <span class="type">CNContactNoteKey</span>, <span class="type">CNContactPhoneNumbersKey</span>,</div><div class="line">                    <span class="type">CNContactEmailAddressesKey</span>, <span class="type">CNContactPostalAddressesKey</span>,</div><div class="line">                    <span class="type">CNContactDatesKey</span>, <span class="type">CNContactInstantMessageAddressesKey</span></div><div class="line">        ]</div><div class="line">        <span class="comment">//创建请求对象</span></div><div class="line">        <span class="comment">//需要传入一个(keysToFetch: [CNKeyDescriptor]) 包含CNKeyDescriptor类型的数组</span></div><div class="line">        <span class="keyword">let</span> request = <span class="type">CNContactFetchRequest</span>(keysToFetch: keys <span class="keyword">as</span> [<span class="type">CNKeyDescriptor</span>])</div><div class="line">        </div><div class="line">        <span class="keyword">do</span> &#123;</div><div class="line">            <span class="keyword">try</span> store.enumerateContacts(with: request, usingBlock: &#123; (contact, <span class="number">_</span>) <span class="keyword">in</span></div><div class="line">                <span class="comment">//获取姓名</span></div><div class="line">                <span class="keyword">let</span> lastName = contact.familyName</div><div class="line">                <span class="keyword">let</span> firstName = contact.givenName</div><div class="line">                <span class="built_in">print</span>(<span class="string">"<span class="subst">\(lastName)</span><span class="subst">\(firstName)</span>"</span>)</div><div class="line"></div><div class="line">                <span class="comment">//获取昵称</span></div><div class="line">                <span class="keyword">let</span> nikeName = contact.nickname</div><div class="line">                <span class="built_in">print</span>(<span class="string">"昵称：<span class="subst">\(nikeName)</span>"</span>)</div><div class="line"></div><div class="line">                <span class="comment">//获取公司（组织）</span></div><div class="line">                <span class="keyword">let</span> organization = contact.organizationName</div><div class="line">                <span class="built_in">print</span>(<span class="string">"公司（组织）：<span class="subst">\(organization)</span>"</span>)</div><div class="line"></div><div class="line">                <span class="comment">//获取职位</span></div><div class="line">                <span class="keyword">let</span> jobTitle = contact.jobTitle</div><div class="line">                <span class="built_in">print</span>(<span class="string">"职位：<span class="subst">\(jobTitle)</span>"</span>)</div><div class="line"></div><div class="line">                <span class="comment">//获取部门</span></div><div class="line">                <span class="keyword">let</span> department = contact.departmentName</div><div class="line">                <span class="built_in">print</span>(<span class="string">"部门：<span class="subst">\(department)</span>"</span>)</div><div class="line"></div><div class="line">                <span class="comment">//获取备注</span></div><div class="line">                <span class="keyword">let</span> note = contact.note</div><div class="line">                <span class="built_in">print</span>(<span class="string">"备注：<span class="subst">\(note)</span>"</span>)</div><div class="line">                </div><div class="line">                <span class="comment">//获取电话号码</span></div><div class="line">                <span class="built_in">print</span>(<span class="string">"电话："</span>)</div><div class="line">                <span class="keyword">for</span> phone <span class="keyword">in</span> contact.phoneNumbers &#123;</div><div class="line">                    <span class="comment">//获得标签名（转为能看得懂的本地标签名，比如work、home）</span></div><div class="line">                    <span class="keyword">var</span> label = <span class="string">"未知标签"</span></div><div class="line">                    <span class="keyword">if</span> phone.label != <span class="literal">nil</span> &#123;</div><div class="line">                        label = <span class="type">CNLabeledValue</span>&lt;<span class="type">NSString</span>&gt;.localizedString(forLabel:</div><div class="line">                            phone.label!)</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    <span class="comment">//获取号码</span></div><div class="line">                    <span class="keyword">let</span> value = phone.value.stringValue</div><div class="line">                    <span class="built_in">print</span>(<span class="string">"\t<span class="subst">\(label)</span>：<span class="subst">\(value)</span>"</span>)</div><div class="line">                &#125;</div><div class="line">                </div><div class="line">                <span class="comment">//获取Email</span></div><div class="line">                <span class="built_in">print</span>(<span class="string">"Email："</span>)</div><div class="line">                <span class="keyword">for</span> email <span class="keyword">in</span> contact.emailAddresses &#123;</div><div class="line">                    <span class="comment">//获得标签名（转为能看得懂的本地标签名）</span></div><div class="line">                    <span class="keyword">var</span> label = <span class="string">"未知标签"</span></div><div class="line">                    <span class="keyword">if</span> email.label != <span class="literal">nil</span> &#123;</div><div class="line">                        label = <span class="type">CNLabeledValue</span>&lt;<span class="type">NSString</span>&gt;.localizedString(forLabel:</div><div class="line">                            email.label!)</div><div class="line">                    &#125;</div><div class="line">                    </div><div class="line">                    <span class="comment">//获取值</span></div><div class="line">                    <span class="keyword">let</span> value = email.value</div><div class="line">                    <span class="built_in">print</span>(<span class="string">"\t<span class="subst">\(label)</span>：<span class="subst">\(value)</span>"</span>)</div><div class="line">                &#125;</div><div class="line">                </div><div class="line">                <span class="comment">//获取地址</span></div><div class="line">                <span class="built_in">print</span>(<span class="string">"地址："</span>)</div><div class="line">                <span class="keyword">for</span> address <span class="keyword">in</span> contact.postalAddresses &#123;</div><div class="line">                    <span class="comment">//获得标签名（转为能看得懂的本地标签名）</span></div><div class="line">                    <span class="keyword">var</span> label = <span class="string">"未知标签"</span></div><div class="line">                    <span class="keyword">if</span> address.label != <span class="literal">nil</span> &#123;</div><div class="line">                        label = <span class="type">CNLabeledValue</span>&lt;<span class="type">NSString</span>&gt;.localizedString(forLabel:</div><div class="line">                            address.label!)</div><div class="line">                    &#125;</div><div class="line">                    </div><div class="line">                    <span class="comment">//获取值</span></div><div class="line">                    <span class="keyword">let</span> detail = address.value</div><div class="line">                    <span class="keyword">let</span> contry = detail.value(forKey: <span class="type">CNPostalAddressCountryKey</span>) ?? <span class="string">""</span></div><div class="line">                    <span class="keyword">let</span> state = detail.value(forKey: <span class="type">CNPostalAddressStateKey</span>) ?? <span class="string">""</span></div><div class="line">                    <span class="keyword">let</span> city = detail.value(forKey: <span class="type">CNPostalAddressCityKey</span>) ?? <span class="string">""</span></div><div class="line">                    <span class="keyword">let</span> street = detail.value(forKey: <span class="type">CNPostalAddressStreetKey</span>) ?? <span class="string">""</span></div><div class="line">                    <span class="keyword">let</span> code = detail.value(forKey: <span class="type">CNPostalAddressPostalCodeKey</span>) ?? <span class="string">""</span></div><div class="line">                    <span class="keyword">let</span> str = <span class="string">"国家:<span class="subst">\(contry)</span> 省:<span class="subst">\(state)</span> 城市:<span class="subst">\(city)</span> 街道:<span class="subst">\(street)</span>"</span></div><div class="line">                        + <span class="string">" 邮编:<span class="subst">\(code)</span>"</span></div><div class="line">                    <span class="built_in">print</span>(<span class="string">"\t<span class="subst">\(label)</span>：<span class="subst">\(str)</span>"</span>)</div><div class="line">                &#125;</div><div class="line">                </div><div class="line">                <span class="comment">//获取纪念日</span></div><div class="line">                <span class="built_in">print</span>(<span class="string">"纪念日："</span>)</div><div class="line">                <span class="keyword">for</span> date <span class="keyword">in</span> contact.dates &#123;</div><div class="line">                    <span class="comment">//获得标签名（转为能看得懂的本地标签名）</span></div><div class="line">                    <span class="keyword">var</span> label = <span class="string">"未知标签"</span></div><div class="line">                    <span class="keyword">if</span> date.label != <span class="literal">nil</span> &#123;</div><div class="line">                        label = <span class="type">CNLabeledValue</span>&lt;<span class="type">NSString</span>&gt;.localizedString(forLabel:</div><div class="line">                            date.label!)</div><div class="line">                    &#125;</div><div class="line">                    </div><div class="line">                    <span class="comment">//获取值</span></div><div class="line">                    <span class="keyword">let</span> dateComponents = date.value <span class="keyword">as</span> <span class="type">DateComponents</span></div><div class="line">                    <span class="keyword">let</span> value = <span class="type">NSCalendar</span>.current.date(from: dateComponents)</div><div class="line">                    <span class="keyword">let</span> dateFormatter = <span class="type">DateFormatter</span>()</div><div class="line">                    dateFormatter.dateFormat = <span class="string">"yyyy年MM月dd日 HH:mm:ss"</span></div><div class="line">                    <span class="built_in">print</span>(<span class="string">"\t<span class="subst">\(label)</span>：<span class="subst">\(dateFormatter.string(from: value!)</span>)"</span>)</div><div class="line">                &#125;</div><div class="line">                </div><div class="line">                <span class="comment">//获取即时通讯(IM)</span></div><div class="line">                <span class="built_in">print</span>(<span class="string">"即时通讯(IM)："</span>)</div><div class="line">                <span class="keyword">for</span> im <span class="keyword">in</span> contact.instantMessageAddresses &#123;</div><div class="line">                    <span class="comment">//获得标签名（转为能看得懂的本地标签名）</span></div><div class="line">                    <span class="keyword">var</span> label = <span class="string">"未知标签"</span></div><div class="line">                    <span class="keyword">if</span> im.label != <span class="literal">nil</span> &#123;</div><div class="line">                        label = <span class="type">CNLabeledValue</span>&lt;<span class="type">NSString</span>&gt;.localizedString(forLabel:</div><div class="line">                            im.label!)</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    <span class="comment">//获取值</span></div><div class="line">                    <span class="keyword">let</span> detail = im.value</div><div class="line">                    <span class="keyword">let</span> username = detail.value(forKey: <span class="type">CNInstantMessageAddressUsernameKey</span>)</div><div class="line">                        ?? <span class="string">""</span></div><div class="line">                    <span class="keyword">let</span> service = detail.value(forKey: <span class="type">CNInstantMessageAddressServiceKey</span>)</div><div class="line">                        ?? <span class="string">""</span></div><div class="line">                    <span class="built_in">print</span>(<span class="string">"\t<span class="subst">\(label)</span>：<span class="subst">\(username)</span> 服务:<span class="subst">\(service)</span>"</span>)</div><div class="line">                &#125;</div><div class="line">                </div><div class="line">                <span class="built_in">print</span>(<span class="string">"----------------"</span>)</div><div class="line">            &#125;)</div><div class="line">        &#125; <span class="keyword">catch</span> &#123;</div><div class="line">            <span class="built_in">print</span>(error)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong><a href="https://github.com/ze230123/Example/tree/master/ContactsDemo" target="_blank" rel="external">示例代码下载</a></strong></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+
+        
+        文章标题： <a href="/2018/01/12/Contacts/" target="_blank" rel="external">http://yoursite.com/2018/01/12/Contacts/</a>
+        
+    </div>
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/cover.jpg" alt="泽i">
+            泽i
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/01/12/Contacts/&title=《Swift获取通讯录信息》 — 泽i blog&pic=http://yoursite.com/img/cover.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/01/12/Contacts/&title=《Swift获取通讯录信息》 — 泽i blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/01/12/Contacts/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Swift获取通讯录信息》 — 泽i blog&url=http://yoursite.com/2018/01/12/Contacts/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/01/12/Contacts/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/01/12/nginx/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">nginx安装、启动、退出</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>泽i &copy; 2017 - 2018</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/01/12/Contacts/&title=《Swift获取通讯录信息》 — 泽i blog&pic=http://yoursite.com/img/cover.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/01/12/Contacts/&title=《Swift获取通讯录信息》 — 泽i blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/01/12/Contacts/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Swift获取通讯录信息》 — 泽i blog&url=http://yoursite.com/2018/01/12/Contacts/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/01/12/Contacts/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2018/01/12/Contacts/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
