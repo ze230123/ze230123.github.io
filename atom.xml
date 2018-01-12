@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-01-12T08:49:07.925Z</updated>
+  <updated>2018-01-12T09:12:06.134Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nginx安装、启动、退出</title>
+    <link href="http://yoursite.com/2018/01/12/nginx/"/>
+    <id>http://yoursite.com/2018/01/12/nginx/</id>
+    <published>2018-01-12T09:10:09.000Z</published>
+    <updated>2018-01-12T09:12:06.134Z</updated>
+    
+    <content type="html"><![CDATA[<p>nginx 安装</p><p>brew install nginx</p><p>sudo nginx // 启动<br>sudo nginx -s stop/quit/reopen/reload //发送信号给主进程：停止，退出，重新打开，重新加载</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;nginx 安装&lt;/p&gt;
+&lt;p&gt;brew install nginx&lt;/p&gt;
+&lt;p&gt;sudo nginx // 启动&lt;br&gt;sudo nginx -s stop/quit/reopen/reload //发送信号给主进程：停止，退出，重新打开，重新加载&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+      <category term="nginx" scheme="http://yoursite.com/categories/nginx/"/>
+    
+    
+      <category term="nginx命令" scheme="http://yoursite.com/tags/nginx%E5%91%BD%E4%BB%A4/"/>
+    
+  </entry>
   
   <entry>
     <title>制作一个类似游标卡尺的视图</title>
@@ -41,30 +69,6 @@
     
     
       <category term="自定义控件" scheme="http://yoursite.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2017/11/09/nginx/"/>
-    <id>http://yoursite.com/2017/11/09/nginx/</id>
-    <published>2017-11-09T10:21:07.000Z</published>
-    <updated>2017-11-09T10:21:07.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>nginx 安装</p><p>brew install nginx</p><p>sudo nginx // 启动<br>sudo nginx -s stop/quit/reopen/reload //发送信号给主进程：停止，退出，重新打开，重新加载</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;nginx 安装&lt;/p&gt;
-&lt;p&gt;brew install nginx&lt;/p&gt;
-&lt;p&gt;sudo nginx // 启动&lt;br&gt;sudo nginx -s stop/quit/reopen/reload //发送信号给主进程：停止，退出，重新打开，重新加载&lt;/p&gt;
-
-      
-    
-    </summary>
-    
     
   </entry>
   
