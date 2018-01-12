@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-20T09:49:16.000Z</updated>
+  <updated>2018-01-12T04:18:25.547Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>rulerView</title>
+    <link href="http://yoursite.com/2018/01/12/rulerView/"/>
+    <id>http://yoursite.com/2018/01/12/rulerView/</id>
+    <published>2018-01-12T04:18:25.000Z</published>
+    <updated>2018-01-12T04:18:25.547Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://yoursite.com/2017/11/09/nginx/"/>
+    <id>http://yoursite.com/2017/11/09/nginx/</id>
+    <published>2017-11-09T10:21:07.000Z</published>
+    <updated>2017-11-09T10:21:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>nginx 安装</p><p>brew install nginx</p><p>sudo nginx // 启动<br>sudo nginx -s stop/quit/reopen/reload //发送信号给主进程：停止，退出，重新打开，重新加载</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;nginx 安装&lt;/p&gt;
+&lt;p&gt;brew install nginx&lt;/p&gt;
+&lt;p&gt;sudo nginx // 启动&lt;br&gt;sudo nginx -s stop/quit/reopen/reload //发送信号给主进程：停止，退出，重新打开，重新加载&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Idkeyboard-自定义身份证号码键盘</title>
